@@ -1,7 +1,7 @@
 # Project Name
 
-![CI](https://github.com/username/project-name/actions/workflows/ci.yml/badge.svg)
-![CodeQL](https://github.com/username/project-name/actions/workflows/ci.yml/badge.svg?label=CodeQL)
+![CI](https://github.com/EdisonTKPcom/git-repo-with-ai-coding/actions/workflows/ci.yml/badge.svg)
+![CodeQL](https://github.com/EdisonTKPcom/git-repo-with-ai-coding/actions/workflows/ci.yml/badge.svg?label=CodeQL)
 ![Semgrep](https://img.shields.io/badge/semgrep-configured-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
