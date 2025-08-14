@@ -1,0 +1,6 @@
+ort:
+  enableRepositoryPackageCurations: true
+  analyzer:
+    skipExcluded: true
+  scanner:
+    skipExcluded: true

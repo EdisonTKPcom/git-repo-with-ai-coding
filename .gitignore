@@ -1,0 +1,70 @@
+# Core dependencies
+node_modules/
+
+# Dependency locks (keep package-lock.json, ignore others if any)
+*.pnpm-debug.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Logs
+logs/
+*.log
+
+# Runtime data
+pids/
+*.pid
+*.seed
+
+# Coverage
+coverage/
+*.lcov
+
+# Build output
+/dist/
+/build/
+/out/
+.tmp/
+.tmp-*/
+
+# Caches
+.npm/
+.eslintcache
+.cache/
+.parcel-cache/
+.turbo/
+
+# IDE/editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Env / secrets (never commit real secrets)
+.env
+.env.*
+!.env.example
+
+# Reports & artifacts
+report-*.json
+*.sarif
+ort-results/
+semgrep-report.*
+
+# Husky (generated during install, keep scripts dir but ignore install artifacts)
+.husky/_/
+
+# Misc
+coverage-final.json
+
+# Node REPL history
+.node_repl_history
+
+# Lockfiles from other managers (not used here)
+package-lock.backup.json
+
+# Temporary
+*.tmp
+*.temp

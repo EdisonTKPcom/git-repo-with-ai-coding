@@ -1,0 +1,133 @@
+name: CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+        if: ${{ hashFiles('**/package.json') != '' }}
+
+      - name: Install dependencies
+        if: ${{ hashFiles('**/package.json') != '' }}
+        run: npm ci
+
+      - name: Lint
+        if: ${{ hashFiles('**/package.json') != '' }}
+        run: |
+          if [ -f package.json ]; then
+            npm run lint --if-present
+          else
+            echo 'No package.json found, skipping lint.'
+          fi
+
+      - name: Test
+        if: ${{ hashFiles('**/package.json') != '' }}
+        run: |
+          if [ -f package.json ]; then
+            npm test --if-present -- --ci
+          else
+            echo 'No tests to run.'
+          fi
+
+  security-scans:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Secret Scan (trufflehog)
+        uses: trufflesecurity/trufflehog@v3
+        with:
+          path: .
+          branches: false
+          only_verified: true
+
+      - name: Dependency Audit (npm)
+        if: ${{ hashFiles('**/package.json') != '' }}
+        run: |
+          npm audit --audit-level=high || true
+
+  semgrep:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node (for parsing if needed)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install Semgrep
+        run: pip install semgrep==1.96.0 || pip3 install semgrep==1.96.0
+      - name: Run Semgrep
+        run: semgrep --config .semgrep/semgrep.yml --error --severity ERROR || true
+
+  license-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Ensure scripts executable
+        run: chmod +x scripts/check-spdx.sh || true
+      - name: Install ORT prerequisites
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y openjdk-17-jre-headless curl jq
+      - name: Download ORT
+        run: |
+          curl -sSL -o ort.jar https://github.com/oss-review-toolkit/ort/releases/latest/download/ort.jar
+      - name: Run ORT Analyzer (dependencies & licenses)
+        run: |
+          java -jar ort.jar --info analyze -i . -o ort-result || true
+      - name: SPDX Header Check
+        run: npm run license:check
+      - name: Summarize ORT Findings
+        run: |
+          if [ -f ort-result/analyzer/result.json ]; then
+            echo 'Dependencies analyzed:'
+            grep -o '"id" *: *"[^"]*"' ort-result/analyzer/result.json | head -n 20 || true
+          else
+            echo 'ORT result not found.'
+          fi
+      - name: Upload ORT Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ort-result
+          path: ort-result
+
+  codeql:
+    # Runs only if repository is public or GHAS enabled
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ['javascript']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: '/language:${{matrix.language}}'

@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Run lint-staged for staged files
+npx --no-install lint-staged
+
+# Basic secret scan (simple heuristic) - prevent committing obvious secrets
+# Scan each staged file (excluding husky scripts) for common private key markers.
+secret_patterns='(AWS_SECRET_ACCESS_KEY=|-----BEGIN (RSA )?PRIVATE KEY-----)'
+staged_files=$(git diff --cached --name-only | grep -v '^.husky/' || true)
+if [ -n "$staged_files" ]; then
+  while IFS= read -r file; do
+    # Skip non-regular files
+    [ -f "$file" ] || continue
+    if grep -Eq "$secret_patterns" "$file"; then
+      echo "Potential secret detected in $file. Aborting commit." >&2
+      exit 1
+    fi
+  done <<EOF
+$staged_files
+EOF
+fi

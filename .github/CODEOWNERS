@@ -1,0 +1,17 @@
+# CODEOWNERS
+# Order matters; last match wins.
+# Set default owners for everything.
+*       @EdisonTKPcom
+
+# Security sensitive paths (adjust/add as code grows)
+# /src/security/        @EdisonTKPcom
+# /infrastructure/      @EdisonTKPcom
+
+# Documentation
+/*.md   @EdisonTKPcom
+
+# GitHub configs
+/.github/  @EdisonTKPcom
+
+# Require explicit review for workflows changes
+/.github/workflows/  @EdisonTKPcom

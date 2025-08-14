@@ -1,0 +1,11 @@
+rules:
+  - id: no-eval
+    languages: [javascript]
+    message: Avoid use of eval for security reasons.
+    pattern: eval(...)
+    severity: ERROR
+  - id: no-insecure-random
+    languages: [javascript]
+    message: Use crypto.randomUUID or crypto.randomBytes for security-sensitive randomness.
+    pattern: Math.random()
+    severity: WARNING

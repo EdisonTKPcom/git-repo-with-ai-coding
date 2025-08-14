@@ -1,0 +1,26 @@
+{
+  "name": "sample-ai-coding-project",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "lint": "eslint .",
+    "test": "node --test",
+    "semgrep": "bash -c 'if command -v semgrep >/dev/null 2>&1; then semgrep --config .semgrep/semgrep.yml; else echo \"Semgrep not installed. Install with: pip install semgrep\"; fi'",
+    "license:check": "bash scripts/check-spdx.sh",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "18.6.1",
+    "@commitlint/config-conventional": "18.6.1",
+    "eslint": "^9.33.0",
+    "husky": "9.0.11",
+    "lint-staged": "^15.5.2"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
+    ]
+  }
+}
