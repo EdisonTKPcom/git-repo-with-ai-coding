@@ -1,0 +1,19 @@
+# default toolset (referenced by modes) - toolset id: default
+id: default
+name: Default Toolset
+version: 1.0.0
+description: Basic shell, filesystem, git, and HTTP tools for agent operations.
+tools:
+  - name: shell
+    description: Execute shell commands (read-only unless explicitly allowed)
+  - name: fs
+    description: Read repository files and directory listings
+  - name: git
+    description: Inspect git metadata, diffs, and history
+  - name: http
+    description: Fetch remote HTTP/HTTPS resources (no auth)
+permissions:
+  shell: read
+  fs: read
+  git: read
+  http: read

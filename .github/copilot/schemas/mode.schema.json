@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Mode",
+  "type": "object",
+  "required": ["id", "name", "include"],
+  "properties": {
+    "id": { "type": "string" },
+    "name": { "type": "string" },
+    "description": { "type": "string" },
+    "base_prompt": { "type": "string" },
+    "include": {
+      "type": "object",
+      "properties": {
+        "context": { "type": "array", "items": { "type": "string" } },
+        "extensions": { "type": "array", "items": { "type": "string" } },
+        "commands": { "type": "array", "items": { "type": "string" } },
+        "toolsets": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

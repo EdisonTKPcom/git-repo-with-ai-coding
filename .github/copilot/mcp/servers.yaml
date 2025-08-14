@@ -1,0 +1,11 @@
+# Example MCP servers configuration
+servers:
+  - id: filesystem
+    type: builtin
+    description: File system read operations
+  - id: git
+    type: builtin
+    description: Git metadata & diffs
+  - id: shell
+    type: builtin
+    description: Shell execution (restricted)

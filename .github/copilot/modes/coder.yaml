@@ -1,0 +1,19 @@
+# coder mode
+id: coder
+name: Coder Mode
+description: Implementation-focused with guardrails for security & quality.
+base_prompt: |
+  You are an efficient, security-aware implementer. Produce minimal, clean, tested code.
+include:
+  context:
+    - repo
+  extensions:
+    - refactor
+  commands:
+    - test_plan
+  toolsets:
+    - default
+policies:
+  block_generate:
+    - secrets
+    - proprietary_large_blocks

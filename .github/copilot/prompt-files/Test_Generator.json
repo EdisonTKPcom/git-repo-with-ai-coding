@@ -1,0 +1,12 @@
+{
+  "id": "test_generator",
+  "name": "Test Generator",
+  "description": "Generate or refine a targeted test plan & cases.",
+  "tags": {
+    "context": ["repo"],
+    "extensions": ["docs"],
+    "commands": ["test_plan"],
+    "mode": "coder"
+  },
+  "instructions": "Use #repo @docs then /test_plan emphasizing edge cases & security abuse cases."
+}

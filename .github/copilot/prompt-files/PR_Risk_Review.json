@@ -1,0 +1,12 @@
+{
+  "id": "pr_risk_review",
+  "name": "PR Risk Review",
+  "description": "Perform a structured security & risk review for a pull request.",
+  "tags": {
+    "context": ["repo", "security"],
+    "extensions": ["refactor"],
+    "commands": ["risk_review", "test_plan"],
+    "mode": "reviewer"
+  },
+  "instructions": "Use #repo #security @refactor then /risk_review followed by /test_plan focusing on newly changed surfaces."
+}
