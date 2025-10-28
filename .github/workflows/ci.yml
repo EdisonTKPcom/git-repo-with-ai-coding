@@ -102,7 +102,7 @@ jobs:
             echo 'ORT result not found.'
           fi
       - name: Upload ORT Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: ort-result
           path: ort-result
